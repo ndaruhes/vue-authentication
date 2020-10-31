@@ -7,23 +7,23 @@ Vue.use(Vuex)
 export default{
     namespaced: true,
     state: {
-        blog: null
+        blogs: [],
     },
     getters: {
         blogs(state){
-            return state.blog
+            return state.blogs
         }
     },
     mutations: {
         blogIndex(state, data){
-            state.blog = data;
+            state.blogs = data;
         }
     },
     actions: {
         async getBlogs({commit}){
             let response = await axios.get('blog');
             console.log(response.data.data)
-            return commit('blogIndex', response.data.data)
+            commit('blogIndex', response.data.data)
         }
     }
 }

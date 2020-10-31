@@ -55,21 +55,18 @@ export default {
     mounted(){
         document.body.classList.add('hold-transition', 'sidebar-mini', 'layout-fixed', 'layout-navbar-fixed', 'layout-footer-fixed')
         // console.log(this.authenticated['role']);
-        // this.getBlogs();
-        console.log(this.blogs);
+        this.getBlogs();
     },
     computed: {
         ...mapGetters({
             authenticated: 'auth/authenticated',
             user: 'auth/user',
-            blogs: 'blog/blogs'
-        })
+        }),
     },
     methods: {
-        // async getBlogs(){
-        //     let response = await axios.get('blog');
-        //     console.log(response.data.data);
-        // }
+        getBlogs(){
+            this.$store.dispatch('getBlogs');
+        }
     }
 }
 </script>
