@@ -20,7 +20,7 @@
 
 <script>
 import TheNavigation from '@/components/TheNavigation'
-import {mapActions} from 'vuex'
+// import {mapActions} from 'vuex'
 export default {
     components: {TheNavigation},
     data(){
@@ -32,12 +32,12 @@ export default {
         }
     },
     methods:{
-        ...mapActions({
-            login: 'auth/login'
-        }),
+        // ...mapActions({
+        //     login: 'auth/login'
+        // }),
         async submit(){
             this.$Progress.start();
-            this.login(this.form).then(() => {
+            this.$store.dispatch('auth/login', this.form).then(() => {
                 this.$router.replace({
                     name: 'dashboard'
                 })
@@ -54,6 +54,22 @@ export default {
                 })
             })
             this.$Progress.finish();
+            // this.login(this.form).then(() => {
+            //     this.$router.replace({
+            //         name: 'dashboard'
+            //     })
+            //     this.$toasted.show('Wei selamat datang gann!', {
+            //         position: 'bottom-right',
+            //         type: 'success',
+            //         duration: 2000
+            //     })
+            // }).catch(() => {
+            //     this.$toasted.show('Login Failed', {
+            //         position: 'bottom-right',
+            //         type: 'error',
+            //         duration: 2000
+            //     })
+            // })
         }
     }
 }

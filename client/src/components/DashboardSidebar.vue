@@ -7,36 +7,40 @@
         <div class="sidebar">
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <template v-if="authenticated && user['role'] == 'Admin'">
-                            <router-link :to="{name: 'dashboard'}" class="nav-link">
+                    <template v-if="authenticated && user['role'] == 'Admin'">
+                        <li class="nav-item">
+                            <router-link exact :to="{name: 'dashboard'}" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>Home</p>
                             </router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link to="/dashboard/blog" class="nav-link">
                                 <i class="nav-icon fas fa-rss"></i>
                                 <p>Kelola Blog</p>
                             </router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link to="#" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>Kelola User</p>
                             </router-link>
-                        </template>
-                        <template v-else-if="authenticated && user['role'] == 'Member'">
-                            <router-link :to="{name: 'dashboard'}" class="nav-link">
+                        </li>
+                    </template>
+                    <template v-else-if="authenticated && user['role'] == 'Member'">
+                        <li class="nav-item">
+                            <router-link exact :to="{name: 'dashboard'}" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>Home</p>
                             </router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link to="/dashboard/blog" class="nav-link">
                                 <i class="nav-icon fas fa-rss"></i>
                                 <p>Blog</p>
                             </router-link>
-                        </template>
-                        <!-- <router-link to="#" class="nav-link">
-                            <i class="nav-icon fas fa-rss"></i>
-                            <p>Blog</p>
-                        </router-link> -->
-                    </li>
+                        </li>
+                    </template>
                 </ul>
             </nav>
         </div>

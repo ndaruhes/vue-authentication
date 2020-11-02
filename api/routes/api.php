@@ -24,7 +24,9 @@ Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Auth'], f
     Route::get('profile', 'ProfileController');
 });
 Route::group(['prefix' => 'blog', 'namespace' => 'App\Http\Controllers'], function(){
-    Route::post('/create', 'BlogController@create');
+    Route::post('create', 'BlogController@store');
     Route::patch('update', 'BlogController@update');
-    Route::get('/', 'BlogController@index');
+    Route::get('{id}', 'BlogController@show');
+    Route::delete('{id}', 'BlogController@destroy');
+    Route::get('', 'BlogController@index');
 });

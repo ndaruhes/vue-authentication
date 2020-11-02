@@ -14,6 +14,9 @@
                         <i class="fas fa-plus mr-1"></i> Create Blog
                     </button>
                     <createBlog/>
+                    <DeleteModal :method="method" :id="id"/>
+                    <updateModal :id="id" />
+
                     <table class="table table-striped mt-3">
                         <thead>
                             <tr>
@@ -23,13 +26,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Membuat aplikasi android</td>
+                            <tr v-for="(blog, index) in blogs" :key="blog.id">
+                                <td>{{ ++index }}</td>
+                                <td>{{ blog.title }}</td>
                                 <td>
                                     <button class="btn btn-outline-secondary btn-sm mx-2"><i class="fas fa-eye mr-1"></i> Show</button>
-                                    <button class="btn btn-outline-primary btn-sm"><i class="fas fa-pencil-alt mr-1"></i> Edit</button>
-                                    <button class="btn btn-outline-danger btn-sm mx-2"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
+                                    <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#updateModal" @click="updateModal(blog.id)"><i class="fas fa-pencil-alt mr-1"></i> Edit</button>
+                                    <button class="btn btn-outline-danger btn-sm mx-2" data-toggle="modal" data-target="#deleteModal" @click="deleteModal(blog.id)"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -46,26 +49,40 @@ import DashboardNavbar from '@/components/DashboardNav'
 import DashboardFooter from '@/components/DashboardFooter'
 import DashboardSidebar from '@/components/DashboardSidebar'
 import Breadcrumb from '@/components/Breadcrumb'
+import DeleteModal from '@/components/DeleteModal'
 import createBlog from './create';
+import updateModal from './update'
 import {mapGetters} from 'vuex'
 // import axios from 'axios'
 
 export default {
-    components: { DashboardNavbar, DashboardFooter, DashboardSidebar, Breadcrumb, createBlog },
+    data(){
+        return{
+            id : null,
+            method : "blog/deleteBlog"
+        }
+    },
+    components: { DashboardNavbar, DashboardFooter, DashboardSidebar, Breadcrumb, createBlog, DeleteModal, updateModal },
     mounted(){
         document.body.classList.add('hold-transition', 'sidebar-mini', 'layout-fixed', 'layout-navbar-fixed', 'layout-footer-fixed')
-        // console.log(this.authenticated['role']);
-        this.getBlogs();
+        this.getBlogs()
     },
     computed: {
         ...mapGetters({
             authenticated: 'auth/authenticated',
             user: 'auth/user',
+            blogs: 'blog/blogs'
         }),
     },
     methods: {
+        deleteModal(blog){
+            this.id = blog
+        },
+        updateModal(blog){
+            this.id = blog
+        },
         getBlogs(){
-            this.$store.dispatch('getBlogs');
+            this.$store.dispatch('blog/getBlogs')
         }
     }
 }

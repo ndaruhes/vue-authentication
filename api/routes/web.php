@@ -27,5 +27,11 @@ Route::get('/', function () {
     //     'email' => 'raharaditya10@gmail.com',
     //     'password' => bcrypt('password')
     // ]);
+
+    // User::create([
+    //     'name' => 'Arya Javas Fatih',
+    //     'email' => 'arya@gmail.com',
+    //     'password' => bcrypt('password')
+    // ]);
     return view('welcome');
 });

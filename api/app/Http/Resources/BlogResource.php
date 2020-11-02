@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class BlogResource extends JsonResource
 {
@@ -14,11 +15,21 @@ class BlogResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'title' => $this->judul,
-            'content' => $this->content,
-            'created_by' => $this->user->name,
-            'published' => $this->created_at->diffForHumans()
-        ];
+        if(Auth::user()->role == 'Admin'){
+            return [
+                'id' => $this->id,
+                'title' => $this->judul,
+                'content' => $this->content,
+                'created_by' => $this->user->name,
+                'published' => $this->created_at->diffForHumans()
+            ];
+        }else if(Auth::user()->role == 'Member'){
+            return [
+                'id' => $this->id,
+                'title' => $this->judul,
+                'content' => $this->content,
+                'published' => $this->created_at->diffForHumans()
+            ];
+        }
     }
 }

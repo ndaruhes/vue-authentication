@@ -8,22 +8,37 @@ export default{
     namespaced: true,
     state: {
         blogs: [],
+        message: ''
     },
     getters: {
         blogs(state){
             return state.blogs
+        },
+        message(state){
+            return state.message
         }
     },
     mutations: {
-        blogIndex(state, data){
+        SET_BLOGS(state, data){
             state.blogs = data;
         }
     },
     actions: {
         async getBlogs({commit}){
-            let response = await axios.get('blog');
-            console.log(response.data.data)
-            commit('blogIndex', response.data.data)
+            await axios.get('blog').then((response) => {
+                commit('SET_BLOGS', response.data.data)
+            })
+        },
+        async createBlog({dispatch, state}, credentials){
+            await axios.post('blog/create', credentials).then((response) => {
+                state.message = response.data
+                return dispatch('getBlogs')
+            })
+        },
+        async deleteBlog({dispatch}, endpoint){
+            await axios.delete('blog/' + endpoint).then(() => {
+                return dispatch('getBlogs')
+            })
         }
     }
 }
