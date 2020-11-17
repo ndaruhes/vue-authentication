@@ -17,26 +17,36 @@
                     <DeleteModal :method="method" :id="id"/>
                     <updateModal :id="id" />
 
-                    <table class="table table-striped mt-3">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Judul Blog</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(blog, index) in blogs" :key="blog.id">
-                                <td>{{ ++index }}</td>
-                                <td>{{ blog.title }}</td>
-                                <td>
-                                    <button class="btn btn-outline-secondary btn-sm mx-2"><i class="fas fa-eye mr-1"></i> Show</button>
-                                    <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#updateModal" @click="updateModal(blog.id)"><i class="fas fa-pencil-alt mr-1"></i> Edit</button>
-                                    <button class="btn btn-outline-danger btn-sm mx-2" data-toggle="modal" data-target="#deleteModal" @click="deleteModal(blog.id)"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <template v-if="loading">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-grow" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template v-else>
+                        <table class="table table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Judul Blog</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(blog, index) in blogs" :key="blog.id">
+                                    <td>{{ ++index }}</td>
+                                    <td>{{ blog.title }}</td>
+                                    <td>
+                                        <button class="btn btn-outline-secondary btn-sm mx-2"><i class="fas fa-eye mr-1"></i> Show</button>
+                                        <button class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#updateModal" @click="updateModal(blog.id)"><i class="fas fa-pencil-alt mr-1"></i> Edit</button>
+                                        <button class="btn btn-outline-danger btn-sm mx-2" data-toggle="modal" data-target="#deleteModal" @click="deleteModal(blog.id)"><i class="fas fa-trash-alt mr-1"></i> Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </template>
                 </template>
             </div>
         </div>
@@ -63,7 +73,7 @@ export default {
         }
     },
     components: { DashboardNavbar, DashboardFooter, DashboardSidebar, Breadcrumb, createBlog, DeleteModal, updateModal },
-    mounted(){
+    created(){
         document.body.classList.add('hold-transition', 'sidebar-mini', 'layout-fixed', 'layout-navbar-fixed', 'layout-footer-fixed')
         this.getBlogs()
     },
@@ -71,7 +81,8 @@ export default {
         ...mapGetters({
             authenticated: 'auth/authenticated',
             user: 'auth/user',
-            blogs: 'blog/blogs'
+            blogs: 'blog/blogs',
+            loading: 'blog/loading'
         }),
     },
     methods: {

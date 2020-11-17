@@ -8,7 +8,8 @@ export default{
     namespaced: true,
     state: {
         blogs: [],
-        message: ''
+        message: '',
+        loading: true
     },
     getters: {
         blogs(state){
@@ -16,17 +17,24 @@ export default{
         },
         message(state){
             return state.message
+        },
+        loading(state){
+            return state.loading
         }
     },
     mutations: {
         SET_BLOGS(state, data){
             state.blogs = data;
+        },
+        SET_LOADING_STATUS(state, status){
+            state.loading = status;
         }
     },
     actions: {
         async getBlogs({commit}){
             await axios.get('blog').then((response) => {
                 commit('SET_BLOGS', response.data.data)
+                commit('SET_LOADING_STATUS', false)
             })
         },
         async createBlog({dispatch, state}, credentials){
